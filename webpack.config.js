@@ -2,54 +2,27 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-// const WebpackParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
-// let sassExtract = new ExtractTextPlugin('sass.css');
 var path = require('path');
 var webpack = require('webpack');
-var precss = require('precss');
-var isWin = /^win/.test(process.platform);
-var qnuiReg = isWin ? new RegExp(/node_modules\\.*qnui.*/) : new RegExp(/node_modules\/.*qnui.*/);
 
-let cwd = process.cwd();
-let SINGLE_PAGE = process.env.SINGLE_PAGE;
-var from = process.env.FROM ? process.env.FROM : "tb";
-
-var globby = require('globby');
-var files = globby.sync(['**/pages/*'], { cwd: cwd + '/src' });
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
-// update 取消其他多余页面的打包 固定只有俩
-// files.forEach((item) => {
-//   entry[item + '/index'] = ['./src/' + item + '/index.js'];
-// });
-let reg = /--version=.+/;
-let version = 'unknown';
-process.argv.map(item=>{
-    if (reg.test(item)){
-        version = item.split("=")[1];
-    }
-})
-let mode=process.argv.indexOf("--mode=development")!=-1?'development':'production'
-console.log(version);
+
 let config = {
 	entry:{
         'index': [ './src/index.tsx' ],
     },
 	output: {
-		path: path.resolve(__dirname,'dist/'+version+'/build'),
+		path: path.resolve(__dirname,'dist/build'),
 		publicPath: 'build',
 		filename: '[name].js',
 		chunkFilename: '[name].js',
         sourceMapFilename: `../sourceMaps/[name].map`
-		// chunkFilename: '[name]_[chunkhash:8]_chunk.js'
 	},
 	resolve: {
 		extensions: ['*', '.js', '.jsx','.ts','.tsx'],
 		alias: {
-			componentBase: path.join(__dirname, 'src/componentBase'),
-			componentsNew: path.join(__dirname, 'src/components/'+from),
 			components: path.join(__dirname, 'src/components'),
 			utils: path.join(__dirname, 'src/public/utils'),
 			styles: path.join(__dirname, 'src/styles'),
@@ -94,10 +67,9 @@ let config = {
 				test: /\.scss/,
 					include: [
 						path.resolve(__dirname,'src'),
-						qnuiReg
 				],
 				use: [
-						MiniCssExtractPlugin.loader,  // replace ExtractTextPlugin.extract({..})
+						MiniCssExtractPlugin.loader,
 						'css-loader?cacheDirectory=true',
 						'postcss-loader',
 						'sass-loader?cacheDirectory=true'
@@ -105,7 +77,6 @@ let config = {
 		}]
 	},
 	optimization: {
-		// minimize:true,
 	    minimizer: [
 			new UglifyJsPlugin({
 			cache: true,
@@ -116,7 +87,7 @@ let config = {
 				cssProcessorOptions: {
 				  	safe: true
 				}
-			})  // use OptimizeCSSAssetsPlugin
+			})
 		],
 		splitChunks: {
 		    cacheGroups: {
@@ -167,36 +138,21 @@ let config = {
 		// 允许错误不打断程序
 		new webpack.NoEmitOnErrorsPlugin(),
 
-
-		// 环境变量定义
-		new webpack.DefinePlugin({
-		  _FROM_: JSON.stringify(from=="tb"?"TAO":from),
-			_ROLE_: JSON.stringify(process.argv.indexOf("--role=C")!=-1 ? "C" : "B")
-		})
 	].filter(Boolean),
 	devServer:{
-		contentBase:cwd,// 配置开发服务运行时的文件根目录
-		host:'0.0.0.0',// 开发服务器监听的主机地址
-		compress:true,   // 开发服务器是否启动gzip等压缩
-		port:9000,        // 开发服务器监听的端口
+		contentBase:'.',
+		host:'0.0.0.0',
+		compress:true,
+		port:9000,
 		disableHostCheck: true,
 		progress:true,
 		headers: {
 			"Access-Control-Allow-Origin": "*",
 		}
 	},
-	stats: { children: false }
+	stats: { children: false },
+    devtool:'eval-cheap-module-source-map'
 }
- config.devtool = 'source-map'
- if (process.argv.indexOf("--mode=development")!=-1)
- {
- 	config.devtool = 'eval-cheap-module-source-map';
- }
 
-// 如果需要单个的start或者build
-if (SINGLE_PAGE) {
-	const key = 'pages/' + SINGLE_PAGE + '/index';
-	config.entry = {};
-	config.entry[key] = ['./src/pages/' + SINGLE_PAGE + '/index.js'];
-}
+
 module.exports = config;
