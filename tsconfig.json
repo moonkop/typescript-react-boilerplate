@@ -1,0 +1,36 @@
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"target": "es5",
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": false,
+		"forceConsistentCasingInFileNames": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"suppressImplicitAnyIndexErrors": true,
+		//"isolatedModules": true,
+		//"noEmit": true,
+		"jsx": "react",
+		"baseUrl": ".",
+		"paths": {
+			"pages/*": ["src/pages/*"],
+			"components/*": ["src/components/*"],
+			"tradePolyfills/*": ["src/tradePolyfills/*"],
+			"tradePublic/*":["src/tradePublic/*"],
+			"publicComponents/*": ["src/public/components/*"],
+			"utils/*": ["src/public/utils/*"],
+			"public/*": ["src/public/*"],
+		}
+	}
+
+}
+

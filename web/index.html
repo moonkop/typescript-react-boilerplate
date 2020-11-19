@@ -1,0 +1,62 @@
+<!doctype html>
+<html style="height:100%;font-family: Tahoma,Arial,Microsoft YaHei,PingFang SC;">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ts入门</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+	<style media="screen">
+
+	</style>
+</head>
+<body style="margin:0px;height:100%;overflow:hidden;">
+<div id="container" style="height:100%;overflow:hidden;">
+
+</div>
+</body>
+
+
+<script type="text/javascript">
+
+    var loadScript = function (e) {
+        return new Promise(function (resolve, reject) {
+                var t = document.getElementsByTagName("body")[0];
+                var element = document.createElement("script");
+                element.src = e;
+                element.async = "async";
+                element.onload = resolve;
+                t.appendChild(element);
+            }
+        )
+    }
+    var loadCSS = function (e) {
+        var t = document.getElementsByTagName("head")[0];
+        var element = document.createElement("link");
+        element.rel = 'stylesheet'
+        element.href = e;
+        t.appendChild(element);
+    }
+    var loadScripts = function (scripts, callback) {
+        if (!Array.isArray(scripts)) {
+            scripts = [scripts];
+        }
+        Promise.all(scripts.map(loadScript)).then(callback);
+    };
+    document.addEventListener("DOMContentLoaded", function () {
+        loadScripts(
+            ['//q.aiyongtech.com/react/libDev/polyfill-react-dom-addons.combo.js?qntag=5'], function () {
+                loadScripts([
+                    '//q.aiyongtech.com/react/libDev/react-redux-router.combo.js?qntag=5',
+                ], function () {
+                    loadScripts([
+                        "../build/vendor.js",
+                        "../build/index.js"
+                    ])
+                })
+                loadCSS("../build/index.bundle.css");
+            })
+    })
+
+</script>
+</html>
