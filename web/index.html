@@ -1,19 +1,21 @@
 <!doctype html>
 <html style="height:100%;font-family: Tahoma,Arial,Microsoft YaHei,PingFang SC;">
+
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ts入门</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width">
-	<style media="screen">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ts入门</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <style media="screen">
 
-	</style>
+    </style>
 </head>
-<body style="margin:0px;height:100%;overflow:hidden;">
-<div id="container" style="height:100%;overflow:hidden;">
 
-</div>
+<body style="margin:0px;height:100%;overflow:hidden;">
+    <div id="container" style="height:100%;overflow:hidden;">
+
+    </div>
 </body>
 
 
@@ -21,13 +23,13 @@
 
     var loadScript = function (e) {
         return new Promise(function (resolve, reject) {
-                var t = document.getElementsByTagName("body")[0];
-                var element = document.createElement("script");
-                element.src = e;
-                element.async = "async";
-                element.onload = resolve;
-                t.appendChild(element);
-            }
+            var t = document.getElementsByTagName("body")[0];
+            var element = document.createElement("script");
+            element.src = e;
+            element.async = "async";
+            element.onload = resolve;
+            t.appendChild(element);
+        }
         )
     }
     var loadCSS = function (e) {
@@ -45,18 +47,14 @@
     };
     document.addEventListener("DOMContentLoaded", function () {
         loadScripts(
-            ['//q.aiyongtech.com/react/libDev/polyfill-react-dom-addons.combo.js?qntag=5'], function () {
-                loadScripts([
-                    '//q.aiyongtech.com/react/libDev/react-redux-router.combo.js?qntag=5',
-                ], function () {
-                    loadScripts([
-                        "../build/vendor.js",
-                        "../build/index.js"
-                    ])
-                })
+            [
+                "../build/vendor.js",
+                "../build/index.js"
+            ], function () {
                 loadCSS("../build/index.bundle.css");
             })
     })
 
 </script>
+
 </html>

@@ -45,3 +45,4 @@ http:/
 #sourcemap
 sourceMaps
 dist
+**/.DS_Store

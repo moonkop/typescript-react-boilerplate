@@ -23,28 +23,11 @@ let config = {
 	resolve: {
 		extensions: ['*', '.js', '.jsx','.ts','.tsx'],
 		alias: {
-			components: path.join(__dirname, 'src/components'),
-			utils: path.join(__dirname, 'src/public/utils'),
-			styles: path.join(__dirname, 'src/styles'),
-			pages: path.join(__dirname, 'src/pages'),
-			public: path.join(__dirname, 'src/public'),
-			tradePublic: path.join(__dirname, 'src/tradePublic'),
-            tradePolyfills: path.join(__dirname, 'src/tradePolyfills'),
-			publicComponents: path.join(__dirname, 'src/public/components')
+		
 		}
 	},
 	externals: {
-		'react': 'React',
-		'react-dom': 'ReactDOM',
-		'react-redux': 'ReactRedux',
-		'react-router': 'ReactRouter',
-		'react-router-redux': 'ReactRouterRedux',
-		'redux-thunk': 'var window.ReduxThunk.default',
-		'redux': 'Redux',
-		'qnui': 'qnui',
-		'fixed-data-table-2': 'FixedDataTable',
-		'react/lib/ReactTransitionGroup': 'var window.React.addons.TransitionGroup',
-		'react/lib/ReactCSSTransitionGroup': 'var window.React.addons.CSSTransitionGroup'
+
 	},
 	module: {
 		rules: [
@@ -143,12 +126,15 @@ let config = {
 		contentBase:'.',
 		host:'0.0.0.0',
 		compress:true,
+		open:true,
 		port:9000,
 		disableHostCheck: true,
+		public:'localhost:9000/web',
 		progress:true,
 		headers: {
 			"Access-Control-Allow-Origin": "*",
-		}
+		},
+		
 	},
 	stats: { children: false },
     devtool:'eval-cheap-module-source-map'
